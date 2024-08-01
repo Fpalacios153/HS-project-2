@@ -1,10 +1,9 @@
 'use client'
 
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Box, Stack, Typography, Button, Modal, TextField } from '@mui/material'
-import { firestore } from "@/firebase";
+import { firestore } from '@/firebase'
 import {
   collection,
   doc,
@@ -13,7 +12,6 @@ import {
   setDoc,
   deleteDoc,
   getDoc,
-
 } from 'firebase/firestore'
 
 
@@ -42,39 +40,36 @@ export default function Home() {
     const snapshot = query(collection(firestore, 'inventory'))
     const docs = await getDocs(snapshot)
     const inventoryList = []
-    doc.forEach(doc => {
+    docs.forEach((doc) => {
       inventoryList.push({ name: doc.id, ...doc.data() })
-
-    });
+    })
     setInventory(inventoryList)
-  };
+  }
 
   const addItem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item);
-    const docSnap = await getDoc(docRef);
+    const docRef = doc(collection(firestore, 'inventory'), item)
+    const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-      const { quantity } = docSnap.data();
-      await setDoc(docRef, { quantity: quantity + 1 });
+      const { quantity } = docSnap.data()
+      await setDoc(docRef, { quantity: quantity + 1 })
     } else {
       await setDoc(docRef, { quantity: 1 })
-    };
-    await updateInventory();
-  };
+    }
+    await updateInventory()
+  }
 
   const removeItem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item);
+    const docRef = doc(collection(firestore, 'inventory'), item)
     const docSnap = await getDoc(docRef)
-
     if (docSnap.exists()) {
-      const { quantity } = docSnap.data();
+      const { quantity } = docSnap.data()
       if (quantity === 1) {
-        await deleteDoc(docRef);
+        await deleteDoc(docRef)
       } else {
         await setDoc(docRef, { quantity: quantity - 1 })
       }
     }
     await updateInventory()
-
   }
 
   //modal control
@@ -112,7 +107,7 @@ export default function Home() {
               label="Item"
               variant="outlined"
               fullWidth
-              value={"itemName"}
+              value={itemName}
               onChange={(e) => setItemName(e.target.value)}
             />
             <Button
