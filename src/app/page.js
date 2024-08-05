@@ -12,6 +12,7 @@ import {
   setDoc,
   deleteDoc,
   getDoc,
+  updateDoc
 } from 'firebase/firestore'
 
 
@@ -32,30 +33,46 @@ const style = {
 
 export default function Home() {
 
-  const [inventory, setInventory] = useState([])
   const [open, setOpen] = useState(false)
+
+  const [inventory, setInventory] = useState([])
+
   const [itemName, setItemName] = useState('')
+  const [updateName, setupdatedName] = useState('')
+  const [edit, setEditOpen] = useState(false)
 
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, 'inventory'))
     const docs = await getDocs(snapshot)
     const inventoryList = []
     docs.forEach((doc) => {
-      inventoryList.push({ name: doc.id, ...doc.data() })
+      // change to id then add quanity and date
+      inventoryList.push({ id: doc.id, ...doc.data() })
     })
     setInventory(inventoryList)
   }
-
+  // add quantity too
   const addItem = async (item) => {
     const docRef = doc(collection(firestore, 'inventory'), item)
     const docSnap = await getDoc(docRef)
+    console.log(docSnap)
     if (docSnap.exists()) {
       const { quantity } = docSnap.data()
-      await setDoc(docRef, { quantity: quantity + 1 })
+      await setDoc(docRef, { quantity: quantity + 1 }, { merge: true })
     } else {
-      await setDoc(docRef, { quantity: 1 })
+      await setDoc(docRef, { name: item, quantity: 1 })
     }
     await updateInventory()
+  }
+  // add quantity too
+  const updateItem = async (item, update) => {
+    const docRef = doc(collection(firestore, 'inventory'), item);
+    const docSnap = await getDoc(docRef)
+    const { quantity } = docSnap.data()
+    await updateDoc(docRef, { name: update, quantity: quantity }, { merge: true })
+    await updateInventory();
+    setItemName('')
+
   }
 
   const removeItem = async (item) => {
@@ -66,7 +83,7 @@ export default function Home() {
       if (quantity === 1) {
         await deleteDoc(docRef)
       } else {
-        await setDoc(docRef, { quantity: quantity - 1 })
+        await setDoc(docRef, { name: item, quantity: quantity - 1 })
       }
     }
     await updateInventory()
@@ -75,6 +92,9 @@ export default function Home() {
   //modal control
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  const handleEditOpen = () => setEditOpen(true)
+  const handleEditClose = () => setEditOpen(false)
 
   useEffect(() => {
     updateInventory()
@@ -123,6 +143,42 @@ export default function Home() {
           </Stack>
         </Box>
       </Modal>
+      {/* <----------------------------EDIT MODAL-------------------> */}
+      <Modal
+        open={edit}
+        onClose={handleEditClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component='h2'>
+            Edit Item
+          </Typography>
+          <Stack width="100%" direction={"row"} spacing={2}>
+            <TextField
+              id="outlined-basic"
+              label="Item"
+              variant="outlined"
+              fullWidth
+              value={updateName}
+              onChange={(e) => setupdatedName(e.target.value)}
+            />
+            <Button
+              variant="outlined"
+              onClick={() => {
+                updateItem(itemName, updateName)
+                // setItemName('')
+                handleEditClose()
+              }}
+            >
+              Edit
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+      {/* <----------------------------EDIT MODAL-------------------> */}
+
+
       <Button
         variant="contained" onClick={handleOpen}>
         Add New Item
@@ -141,9 +197,10 @@ export default function Home() {
           </Typography>
         </Box>
         <Stack width="800px" height="300px" spacing={2} overflow={'auto'}>
-          {inventory.map(({ name, quantity }) => (
+          {console.log(inventory)}
+          {inventory.map((item) => (
             <Box
-              key={name}
+              key={item.name}
               width="100%"
               minHeight='150px'
               display={'flex'}
@@ -153,13 +210,23 @@ export default function Home() {
               paddingX={5}
             >
               <Typography variant={'h3'} color={'#333'} textAlign={'center'}>
-                {name.charAt(0).toUpperCase() + name.slice(1)}
+                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
               </Typography>
               <Typography variant={'h3'} color={'#333'} textAlign={'center'}>
-                Quantity: {quantity}
+                Quantity: {item.quantity}
               </Typography>
-              <Button variant="contained" onClick={() => { removeItem(name) }}>
-                Remove
+              <Button variant="contained" onClick={() => { removeItem(item.id) }}>
+                -
+              </Button>
+              <Button variant="contained" onClick={() => { addItem(item.id) }}>
+                +
+              </Button>
+              <Button variant='contained' onClick={() => {
+                setupdatedName(item.name)
+                setItemName(item.id)
+                handleEditOpen()
+              }}>
+                Edit
               </Button>
             </Box>
           ))}
