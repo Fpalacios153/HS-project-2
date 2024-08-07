@@ -1,14 +1,21 @@
 import { Box, Typography } from "@mui/material";
-import Link from 'next/link';
+import { GitHub, LinkedIn, Public } from '@mui/icons-material';
+
 
 export default function Footer() {
     return (
         <Box>
             <Typography>
                 Pantry 2024
-                <Link href='apples'>LinkedIn</Link>
-                <Link href='appless'>GitHub</Link>
+
+
             </Typography>
+            <a href="https://github.com/Fpalacios153" target="_blank" rel="noreferrer">
+                <GitHub />
+            </a>
+            <a href="https://www.linkedin.com/in/francisco-palacios-783619253/" target="_blank" rel="noreferrer">
+                <LinkedIn />
+            </a>
         </Box>
     )
 }
