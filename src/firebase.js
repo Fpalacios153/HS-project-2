@@ -16,7 +16,9 @@ const firebaseConfig = {
     messagingSenderId: process.env.NEXT_PUBLIC_API_KEY_messagingSenderId,
     appId: process.env.NEXT_PUBLIC_API_KEY_appId,
     measurementId: process.env.NEXT_PUBLIC_API_KEY_measurementId
+
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
