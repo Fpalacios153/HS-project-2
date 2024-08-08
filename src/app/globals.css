@@ -36,4 +36,6 @@ body {
 #707266 f38630 fa6900 */
 body {
   background-color: #999b8f;
+  position: relative;
+  min-height: 100vh;
 }

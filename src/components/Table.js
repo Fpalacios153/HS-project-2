@@ -27,6 +27,7 @@ export default function StickyTable({ rows, removeItem, addItem, setupdatedName,
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [count, setCount] = useState(0)
 
     const handleChangePage = (e, newPage) => {
         setPage(newPage)
@@ -53,7 +54,7 @@ export default function StickyTable({ rows, removeItem, addItem, setupdatedName,
                                     {column.label}
                                 </TableCell>
                             ))}
-                            <TableCell>
+                            <TableCell key={'1'}>
                                 Add/Remove/Edit
                             </TableCell>
                         </TableRow>
@@ -64,7 +65,7 @@ export default function StickyTable({ rows, removeItem, addItem, setupdatedName,
                             .map((row) => {
 
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
@@ -79,7 +80,7 @@ export default function StickyTable({ rows, removeItem, addItem, setupdatedName,
                                             );
 
                                         })}
-                                        <TableCell>
+                                        <TableCell key={row.id}>
                                             <IconButton variant="contained" sx={{ color: 'highlight.main', ":hover": { bgcolor: '#a7dbd8' } }} onClick={() => { removeItem(row.id) }}>
                                                 <RemoveCircleOutlineRoundedIcon color="orange" />
                                             </IconButton>

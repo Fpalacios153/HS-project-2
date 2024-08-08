@@ -5,9 +5,10 @@ import { GitHub, LinkedIn, Public } from '@mui/icons-material';
 export default function Footer() {
     return (
         <Box sx={{
-            position: 'fixed',
+            position: 'absolute',
             bottom: 0,
             width: "100%",
+            height: "4rem",
             bgcolor: 'primary.main',
             display: 'flex',
             flexDirection: 'column',
@@ -32,3 +33,9 @@ export default function Footer() {
         </Box>
     )
 }
+// #footer {
+//     position: absolute;
+//     bottom: 0;
+//     width: 100 %;
+//     height: 2.5rem;            /* Footer height */
+// }

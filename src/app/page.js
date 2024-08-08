@@ -115,11 +115,12 @@ export default function Home() {
   return (
     <>
       <Container
-        display={"flex"}
-        justifyContent={'center'}
-        flexDirection={'column'}
-        alignItems={'center'}
-        gap={3}
+        sx={{ paddingBottom: '5rem' }}
+      // display={"flex"}
+      // justifyContent={'center'}
+      // flexDirection={'column'}
+      // alignItems={'center'}
+      // gap={3}
 
       >
         {/* <---------------Search---------------> */}
