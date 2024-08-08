@@ -20,13 +20,13 @@ export default function Footer() {
                 {/* &copy; */}
             </Typography>
             <Box display={"flex"} gap={2} >
-                <a href="https://github.com/Fpalacios153" target="_blank" rel="noreferrer">
+                <a href="https://github.com/Fpalacios153" target="_blank" rel="noreferrer" title="GitHub Profile">
                     <GitHub />
                 </a>
-                <a href="https://www.linkedin.com/in/francisco-palacios-783619253/" target="_blank" rel="noreferrer">
+                <a href="https://www.linkedin.com/in/francisco-palacios-783619253/" target="_blank" rel="noreferrer" title='LinkeIn Profile'>
                     <LinkedIn />
                 </a>
-                <a href="https://github.com/Fpalacios153/HS-project-2" target="_blank" rel="noreferrer">
+                <a href="https://github.com/Fpalacios153/HS-project-2" target="_blank" rel="noreferrer" title="GitHub Repository">
                     <p>Repo</p>
                 </a>
             </Box>
