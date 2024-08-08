@@ -4,18 +4,31 @@ import { GitHub, LinkedIn, Public } from '@mui/icons-material';
 
 export default function Footer() {
     return (
-        <Box>
+        <Box sx={{
+            position: 'fixed',
+            bottom: 0,
+            width: "100%",
+            bgcolor: 'primary.main',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '10px'
+        }}>
             <Typography>
-                Pantry 2024
-
-
+                Pantry Sidekick 2024
+                {/* &copy; */}
             </Typography>
-            <a href="https://github.com/Fpalacios153" target="_blank" rel="noreferrer">
-                <GitHub />
-            </a>
-            <a href="https://www.linkedin.com/in/francisco-palacios-783619253/" target="_blank" rel="noreferrer">
-                <LinkedIn />
-            </a>
+            <Box display={"flex"} gap={2} >
+                <a href="https://github.com/Fpalacios153" target="_blank" rel="noreferrer">
+                    <GitHub />
+                </a>
+                <a href="https://www.linkedin.com/in/francisco-palacios-783619253/" target="_blank" rel="noreferrer">
+                    <LinkedIn />
+                </a>
+                <a href="https://github.com/Fpalacios153/HS-project-2" target="_blank" rel="noreferrer">
+                    <p>Repo</p>
+                </a>
+            </Box>
         </Box>
     )
 }

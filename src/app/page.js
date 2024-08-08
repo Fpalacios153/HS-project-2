@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { Box, Stack, Typography, Button, Modal, TextField, } from '@mui/material'
+import { Box, Stack, Typography, Button, Modal, TextField, Container } from '@mui/material'
 import { firestore } from '@/firebase'
 import {
   collection,
@@ -114,13 +114,56 @@ export default function Home() {
 
   return (
     <>
-      <Box
+      <Container
         display={"flex"}
         justifyContent={'center'}
         flexDirection={'column'}
         alignItems={'center'}
-        gap={2}
+        gap={3}
+
       >
+        {/* <---------------Search---------------> */}
+        <Box sx={{ display: "flex", flexDirection: 'column', paddingTop: '10px', gap: 1 }}>
+          <TextField
+            fullWidth
+            color="secondary"
+            label="Search"
+            id="outlined-basic"
+            variant="outlined"
+            value={searchWord}
+            onChange={(e) => setSearchWord(e.target.value.toLowerCase())}
+          >
+          </TextField>
+          <Box paddingTop={1}>
+            <Button
+              sx={{ bgcolor: "#f38630", ":hover": { bgcolor: 'highlight.main' }, width: '100%' }}
+              variant="contained" onClick={handleOpen}>
+              Add New Item
+            </Button>
+          </Box>
+
+          <Box border={'1px solid #333'} borderRadius={'4px'}
+          >
+            <Box
+              height="100px"
+              bgcolor={'secondary.main'}
+              display={'flex'}
+              justifyContent={'center'}
+              alignItems={"center"}
+              color={'primary.main'}
+              borderRadius={'4px'}
+            >
+              <Typography variant={'h2'} color={'primary.main'} textAlign={'center'} borderRadius={"5px"}>
+                Pantry Items
+              </Typography>
+            </Box>
+          </Box>
+          <StickyTable rows={filteredData} setItemName={setItemName} removeItem={removeItem} addItem={addItem} setupdatedName={setupdatedName} handleEditOpen={handleEditOpen} />
+        </Box >
+
+
+
+
         <Modal
           open={open}
           onClose={handleClose}
@@ -181,47 +224,12 @@ export default function Home() {
                   handleEditClose()
                 }}
               >
-                Edit
+                Save
               </Button>
             </Stack>
           </Box>
         </Modal>
-        {/* <----------------------------EDIT MODAL-------------------> */}
-
-
-        <Box>
-          <TextField
-            fullWidth
-            id='outlined-basic'
-            label="Search"
-            variant="outlined"
-            value={searchWord}
-            onChange={(e) => setSearchWord(e.target.value.toLowerCase())}
-          >
-          </TextField>
-        </Box>
-        {/* <---------------Search---------------> */}
-
-        <Button
-          variant="contained" onClick={handleOpen}>
-          Add New Item
-        </Button>
-        <Box border={'1px solid #333'}>
-          <Box
-            width="800px"
-            height="100px"
-            bgcolor={'#ADD8E6'}
-            display={'flex'}
-            justifyContent={'center'}
-            alignItems={"center"}
-          >
-            <Typography variant={'h2'} color={'#333'} textAlign={'center'}>
-              Inventory Items
-            </Typography>
-          </Box>
-          <StickyTable rows={filteredData} setItemName={setItemName} removeItem={removeItem} addItem={addItem} setupdatedName={setupdatedName} handleEditOpen={handleEditOpen} />
-        </Box >
-      </Box >
+      </Container >
 
     </>
   );
